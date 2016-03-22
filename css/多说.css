@@ -430,6 +430,9 @@ span.ua {
 	animation-name: wobble
 }
 
+#ds-thread {background: #ffffff;}
+ 
+
 /*  社交账号登陆透明度  */
 #ds-thread #ds-reset .ds-login-buttons {
     opacity: 1;
@@ -462,7 +465,7 @@ span.ua {
 	background-image: none;
 }
 #ds-thread #ds-reset .ds-comment-body p, #ds-thread #ds-reset .ds-textarea-wrapper textarea {
-    color: #FFF;
+    color: #FFFFFF;
 }
 
 /* “发布”按钮背景 */
