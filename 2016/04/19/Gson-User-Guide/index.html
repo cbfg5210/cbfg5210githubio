@@ -1,0 +1,823 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程,转载," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Overview
+Goals for Gson
+Gson Performance and Scalability
+Gson Users
+Using Gson">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gson User Guide">
+<meta property="og:url" content="http://cbfg5210.github.io/2016/04/19/Gson-User-Guide/index.html">
+<meta property="og:site_name" content="沉璧浮光">
+<meta property="og:description" content="Overview
+Goals for Gson
+Gson Performance and Scalability
+Gson Users
+Using Gson">
+<meta property="og:updated_time" content="2016-04-19T12:47:08.708Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gson User Guide">
+<meta name="twitter:description" content="Overview
+Goals for Gson
+Gson Performance and Scalability
+Gson Users
+Using Gson">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Gson User Guide | 沉璧浮光 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">沉璧浮光</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">想一千次不如去做一次,华丽的跌倒远胜无谓的徘徊.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Gson User Guide
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-19T17:24:22+08:00" content="2016-04-19">
+              2016-04-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li><a href="#TOC-Overview">Overview</a></li>
+<li><a href="#TOC-Goals-for-Gson">Goals for Gson</a></li>
+<li><a href="#TOC-Gson-Performance-and-Scalability">Gson Performance and Scalability</a></li>
+<li><a href="#TOC-Gson-Users">Gson Users</a></li>
+<li><a href="#TOC-Using-Gson">Using Gson</a><a id="more"></a><ul>
+<li><a href="#TOC-Gson-With-Maven">Using Gson with Maven</a></li>
+<li><a href="#TOC-Primitives-Examples">Primitives Examples</a></li>
+<li><a href="#TOC-Object-Examples">Object Examples</a></li>
+<li><a href="#TOC-Finer-Points-with-Objects">Finer Points with Objects</a></li>
+<li><a href="#TOC-Nested-Classes-including-Inner-Classes-">Nested Classes (including Inner Classes)</a></li>
+<li><a href="#TOC-Array-Examples">Array Examples</a></li>
+<li><a href="#TOC-Collections-Examples">Collections Examples</a><ul>
+<li><a href="#TOC-Collections-Limitations">Collections Limitations</a></li>
+</ul>
+</li>
+<li><a href="#TOC-Serializing-and-Deserializing-Generic-Types">Serializing and Deserializing Generic Types</a></li>
+<li><a href="#TOC-Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types">Serializing and Deserializing Collection with Objects of Arbitrary Types</a></li>
+<li><a href="#TOC-Built-in-Serializers-and-Deserializers">Built-in Serializers and Deserializers</a></li>
+<li><a href="#TOC-Custom-Serialization-and-Deserialization">Custom Serialization and Deserialization</a><ul>
+<li><a href="#TOC-Writing-a-Serializer">Writing a Serializer</a></li>
+<li><a href="#TOC-Writing-a-Deserializer">Writing a Deserializer</a></li>
+</ul>
+</li>
+<li><a href="#TOC-Writing-an-Instance-Creator">Writing an Instance Creator</a><ul>
+<li><a href="#TOC-InstanceCreator-for-a-Parameterized-Type">InstanceCreator for a Parameterized Type</a></li>
+</ul>
+</li>
+<li><a href="#TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format">Compact Vs. Pretty Printing for JSON Output Format</a></li>
+<li><a href="#TOC-Null-Object-Support">Null Object Support</a></li>
+<li><a href="#TOC-Versioning-Support">Versioning Support</a></li>
+<li><a href="#TOC-Excluding-Fields-From-Serialization-and-Deserialization">Excluding Fields From Serialization and Deserialization</a><ul>
+<li><a href="#TOC-Java-Modifier-Exclusion">Java Modifier Exclusion</a></li>
+<li><a href="#TOC-Gson-s-Expose">Gson’s <code>@Expose</code></a></li>
+<li><a href="#TOC-User-Defined-Exclusion-Strategies">User Defined Exclusion Strategies</a></li>
+</ul>
+</li>
+<li><a href="#TOC-JSON-Field-Naming-Support">JSON Field Naming Support</a></li>
+<li><a href="#TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers">Sharing State Across Custom Serializers and Deserializers</a></li>
+<li><a href="#TOC-Streaming">Streaming</a></li>
+</ul>
+</li>
+<li><a href="#TOC-Issues-in-Designing-Gson">Issues in Designing Gson</a></li>
+<li><a href="#TOC-Future-Enhancements-to-Gson">Future Enhancements to Gson</a></li>
+</ol>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a><a name="TOC-Overview"></a>Overview</h2><p>Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.</p>
+<p>Gson can work with arbitrary Java objects including pre-existing objects that you do not have source code of.</p>
+<h2 id="Goals-for-Gson"><a href="#Goals-for-Gson" class="headerlink" title="Goals for Gson"></a><a name="TOC-Goals-for-Gson"></a>Goals for Gson</h2><ul>
+<li>Provide easy to use mechanisms like <code>toString()</code> and constructor (factory method) to convert Java to JSON and vice-versa</li>
+<li>Allow pre-existing unmodifiable objects to be converted to and from JSON</li>
+<li>Allow custom representations for objects</li>
+<li>Support arbitrarily complex objects</li>
+<li>Generate compact and readable JSON output</li>
+</ul>
+<h2 id="Gson-Performance-and-Scalability"><a href="#Gson-Performance-and-Scalability" class="headerlink" title="Gson Performance and Scalability"></a><a name="TOC-Gson-Performance-and-Scalability"></a>Gson Performance and Scalability</h2><p>Here are some metrics that we obtained on a desktop (dual opteron, 8GB RAM, 64-bit Ubuntu) running lots of other things along-with the tests. You can rerun these tests by using the class <a href="gson/src/test/java/com/google/gson/metrics/PerformanceTest.java"><code>PerformanceTest</code></a>.</p>
+<ul>
+<li>Strings: Deserialized strings of over 25MB without any problems (see <code>disabled_testStringDeserializationPerformance</code> method in <code>PerformanceTest</code>)</li>
+<li>Large collections:<ul>
+<li>Serialized a collection of 1.4 million objects (see <code>disabled_testLargeCollectionSerialization</code> method in <code>PerformanceTest</code>)</li>
+<li>Deserialized a collection of 87,000 objects (see <code>disabled_testLargeCollectionDeserialization</code> in <code>PerformanceTest</code>)</li>
+</ul>
+</li>
+<li>Gson 1.4 raised the deserialization limit for byte arrays and collection to over 11MB from 80KB.</li>
+</ul>
+<p>Note: Delete the <code>disabled_</code> prefix to run these tests. We use this prefix to prevent running these tests every time we run JUnit tests.</p>
+<h2 id="Gson-Users"><a href="#Gson-Users" class="headerlink" title="Gson Users"></a><a name="TOC-Gson-Users"></a>Gson Users</h2><p>Gson was originally created for use inside Google where it is currently used in a number of projects. It is now used by a number of public projects and companies. See details <a href="https://sites.google.com/site/gson/gson-users" target="_blank" rel="external">here</a>.</p>
+<h2 id="Using-Gson"><a href="#Using-Gson" class="headerlink" title="Using Gson"></a><a name="TOC-Using-Gson"></a>Using Gson</h2><p>The primary class to use is <a href="gson/src/main/java/com/google/gson/Gson.java"><code>Gson</code></a> which you can just create by calling <code>new Gson()</code>. There is also a class <a href="gson/src/main/java/com/google/gson/GsonBuilder.java"><code>GsonBuilder</code></a> available that can be used to create a Gson instance with various settings like version control and so on.</p>
+<p>The Gson instance does not maintain any state while invoking Json operations. So, you are free to reuse the same object for multiple Json serialization and deserialization operations.</p>
+<h2 id="Using-Gson-with-Maven"><a href="#Using-Gson-with-Maven" class="headerlink" title="Using Gson with Maven"></a><a name="TOC-Gson-With-Maven"></a>Using Gson with Maven</h2><p>To use Gson with Maven2/3, you can use the Gson version available in Maven Central by adding the following dependency:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--  Gson: Java to Json conversion --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.code.gson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>gson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.6.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>That is it, now your maven project is Gson enabled. </p>
+<h3 id="Primitives-Examples"><a href="#Primitives-Examples" class="headerlink" title="Primitives Examples"></a><a name="TOC-Primitives-Examples"></a>Primitives Examples</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Serialization</span></span><br><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line">gson.toJson(<span class="number">1</span>);            <span class="comment">// ==&gt; 1</span></span><br><span class="line">gson.toJson(<span class="string">"abcd"</span>);       <span class="comment">// ==&gt; "abcd"</span></span><br><span class="line">gson.toJson(<span class="keyword">new</span> Long(<span class="number">10</span>)); <span class="comment">// ==&gt; 10</span></span><br><span class="line"><span class="keyword">int</span>[] values = &#123; <span class="number">1</span> &#125;;</span><br><span class="line">gson.toJson(values);       <span class="comment">// ==&gt; [1]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Deserialization</span></span><br><span class="line"><span class="keyword">int</span> one = gson.fromJson(<span class="string">"1"</span>, <span class="keyword">int</span>.class);</span><br><span class="line">Integer one = gson.fromJson(<span class="string">"1"</span>, Integer.class);</span><br><span class="line">Long one = gson.fromJson(<span class="string">"1"</span>, Long.class);</span><br><span class="line">Boolean <span class="keyword">false</span> = gson.fromJson(<span class="string">"false"</span>, Boolean.class);</span><br><span class="line">String str = gson.fromJson(<span class="string">"\"abc\""</span>, String.class);</span><br><span class="line">String anotherStr = gson.fromJson(<span class="string">"[\"abc\"]"</span>, String.class);</span><br></pre></td></tr></table></figure>
+<h3 id="Object-Examples"><a href="#Object-Examples" class="headerlink" title="Object Examples"></a><a name="TOC-Object-Examples"></a>Object Examples</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BagOfPrimitives</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> value1 = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">private</span> String value2 = <span class="string">"abc"</span>;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">int</span> value3 = <span class="number">3</span>;</span><br><span class="line">  BagOfPrimitives() &#123;</span><br><span class="line">    <span class="comment">// no-args constructor</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Serialization</span></span><br><span class="line">BagOfPrimitives obj = <span class="keyword">new</span> BagOfPrimitives();</span><br><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line">String json = gson.toJson(obj);  </span><br><span class="line"></span><br><span class="line"><span class="comment">// ==&gt; json is &#123;"value1":1,"value2":"abc"&#125;</span></span><br></pre></td></tr></table></figure>
+<p>Note that you can not serialize objects with circular references since that will result in infinite recursion.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Deserialization</span></span><br><span class="line">BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);</span><br><span class="line"><span class="comment">// ==&gt; obj2 is just like obj</span></span><br></pre></td></tr></table></figure>
+<h4 id="Finer-Points-with-Objects"><a href="#Finer-Points-with-Objects" class="headerlink" title="Finer Points with Objects"></a><a name="TOC-Finer-Points-with-Objects"></a><strong>Finer Points with Objects</strong></h4><ul>
+<li>It is perfectly fine (and recommended) to use private fields</li>
+<li>There is no need to use any annotations to indicate a field is to be included for serialization and deserialization. All fields in the current class (and from all super classes) are included by default.</li>
+<li>If a field is marked transient, (by default) it is ignored and not included in the JSON serialization or deserialization.</li>
+<li>This implementation handles nulls correctly</li>
+<li>While serializing, a null field is skipped from the output</li>
+<li>While deserializing, a missing entry in JSON results in setting the corresponding field in the object to null</li>
+<li>If a field is <em>synthetic</em>, it is ignored and not included in JSON serialization or deserialization</li>
+<li>Fields corresponding to the outer classes in inner classes, anonymous classes, and local classes are ignored and not included in serialization or deserialization</li>
+</ul>
+<h3 id="Nested-Classes-including-Inner-Classes"><a href="#Nested-Classes-including-Inner-Classes" class="headerlink" title="Nested Classes (including Inner Classes)"></a><a name="TOC-Nested-Classes-including-Inner-Classes-"></a>Nested Classes (including Inner Classes)</h3><p>Gson can serialize static nested classes quite easily.</p>
+<p>Gson can also deserialize static nested classes. However, Gson can <strong>not</strong> automatically deserialize the <strong>pure inner classes since their no-args constructor also need a reference to the containing Object</strong> which is not available at the time of deserialization. You can address this problem by either making the inner class static or by providing a custom InstanceCreator for it. Here is an example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123; </span><br><span class="line">  <span class="keyword">public</span> String a; </span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String b; </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="comment">// No args constructor for B</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>NOTE</strong>: The above class B can not (by default) be serialized with Gson.</p>
+<p>Gson can not deserialize <code>{&quot;b&quot;:&quot;abc&quot;}</code> into an instance of B since the class B is an inner class. If it was defined as static class B then Gson would have been able to deserialize the string. Another solution is to write a custom instance creator for B. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceCreatorForB</span> <span class="keyword">implements</span> <span class="title">InstanceCreator</span>&lt;<span class="title">A</span>.<span class="title">B</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> A a;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">InstanceCreatorForB</span><span class="params">(A a)</span>  </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a = a;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> A.<span class="function">B <span class="title">createInstance</span><span class="params">(Type type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.new B();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The above is possible, but not recommended.</p>
+<h3 id="Array-Examples"><a href="#Array-Examples" class="headerlink" title="Array Examples"></a><a name="TOC-Array-Examples"></a>Array Examples</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line"><span class="keyword">int</span>[] ints = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">String[] strings = &#123;<span class="string">"abc"</span>, <span class="string">"def"</span>, <span class="string">"ghi"</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Serialization</span></span><br><span class="line">gson.toJson(ints);     <span class="comment">// ==&gt; [1,2,3,4,5]</span></span><br><span class="line">gson.toJson(strings);  <span class="comment">// ==&gt; ["abc", "def", "ghi"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Deserialization</span></span><br><span class="line"><span class="keyword">int</span>[] ints2 = gson.fromJson(<span class="string">"[1,2,3,4,5]"</span>, <span class="keyword">int</span>[].class); </span><br><span class="line"><span class="comment">// ==&gt; ints2 will be same as ints</span></span><br></pre></td></tr></table></figure>
+<p>We also support multi-dimensional arrays, with arbitrarily complex element types.</p>
+<h3 id="Collections-Examples"><a href="#Collections-Examples" class="headerlink" title="Collections Examples"></a><a name="TOC-Collections-Examples"></a>Collections Examples</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line">Collection&lt;Integer&gt; ints = Lists.immutableList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Serialization</span></span><br><span class="line">String json = gson.toJson(ints);  <span class="comment">// ==&gt; json is [1,2,3,4,5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Deserialization</span></span><br><span class="line">Type collectionType = <span class="keyword">new</span> TypeToken&lt;Collection&lt;Integer&gt;&gt;()&#123;&#125;.getType();</span><br><span class="line">Collection&lt;Integer&gt; ints2 = gson.fromJson(json, collectionType);</span><br><span class="line"><span class="comment">// ==&gt; ints2 is same as ints</span></span><br></pre></td></tr></table></figure>
+<p>Fairly hideous: note how we define the type of collection.<br>Unfortunately, there is no way to get around this in Java.</p>
+<h4 id="Collections-Limitations"><a href="#Collections-Limitations" class="headerlink" title="Collections Limitations"></a><a name="TOC-Collections-Limitations"></a>Collections Limitations</h4><p>Gson can serialize collection of arbitrary objects but can not deserialize from it, because there is no way for the user to indicate the type of the resulting object. Instead, while deserializing, the Collection must be of a specific, generic type.<br>This makes sense, and is rarely a problem when following good Java coding practices.</p>
+<h3 id="Serializing-and-Deserializing-Generic-Types"><a href="#Serializing-and-Deserializing-Generic-Types" class="headerlink" title="Serializing and Deserializing Generic Types"></a><a name="TOC-Serializing-and-Deserializing-Generic-Types"></a>Serializing and Deserializing Generic Types</h3><p>When you call <code>toJson(obj)</code>, Gson calls <code>obj.getClass()</code> to get information on the fields to serialize. Similarly, you can typically pass <code>MyClass.class</code> object in the <code>fromJson(json, MyClass.class)</code> method. This works fine if the object is a non-generic type. However, if the object is of a generic type, then the Generic type information is lost because of Java Type Erasure. Here is an example illustrating the point:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  T value;</span><br><span class="line">&#125;</span><br><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line">Foo&lt;Bar&gt; foo = <span class="keyword">new</span> Foo&lt;Bar&gt;();</span><br><span class="line">gson.toJson(foo); <span class="comment">// May not serialize foo.value correctly</span></span><br><span class="line"></span><br><span class="line">gson.fromJson(json, foo.getClass()); <span class="comment">// Fails to deserialize foo.value as Bar</span></span><br></pre></td></tr></table></figure>
+<p>The above code fails to interpret value as type Bar because Gson invokes <code>list.getClass()</code> to get its class information, but this method returns a raw class, <code>Foo.class</code>. This means that Gson has no way of knowing that this is an object of type <code>Foo&lt;Bar&gt;</code>, and not just plain <code>Foo</code>.</p>
+<p>You can solve this problem by specifying the correct parameterized type for your generic type. You can do this by using the <a href="http://google.github.io/gson/apidocs/com/google/gson/reflect/TypeToken.html" target="_blank" rel="external"><code>TypeToken</code></a> class.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Type fooType = <span class="keyword">new</span> TypeToken&lt;Foo&lt;Bar&gt;&gt;() &#123;&#125;.getType();</span><br><span class="line">gson.toJson(foo, fooType);</span><br><span class="line"></span><br><span class="line">gson.fromJson(json, fooType);</span><br></pre></td></tr></table></figure>
+<p>The idiom used to get <code>fooType</code> actually defines an anonymous local inner class containing a method <code>getType()</code> that returns the fully parameterized type.</p>
+<h3 id="Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types"><a href="#Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types" class="headerlink" title="Serializing and Deserializing Collection with Objects of Arbitrary Types"></a><a name="TOC-Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types"></a>Serializing and Deserializing Collection with Objects of Arbitrary Types</h3><p>Sometimes you are dealing with JSON array that contains mixed types. For example:<br><code>[&#39;hello&#39;,5,{name:&#39;GREETINGS&#39;,source:&#39;guest&#39;}]</code></p>
+<p>The equivalent <code>Collection</code> containing this is:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collection collection = <span class="keyword">new</span> ArrayList();</span><br><span class="line">collection.add(<span class="string">"hello"</span>);</span><br><span class="line">collection.add(<span class="number">5</span>);</span><br><span class="line">collection.add(<span class="keyword">new</span> Event(<span class="string">"GREETINGS"</span>, <span class="string">"guest"</span>));</span><br></pre></td></tr></table></figure>
+<p>where the <code>Event</code> class is defined as:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Event</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> String source;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">Event</span><span class="params">(String name, String source)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.source = source;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can serialize the collection with Gson without doing anything specific: <code>toJson(collection)</code> would write out the desired output.</p>
+<p>However, deserialization with <code>fromJson(json, Collection.class)</code> will not work since Gson has no way of knowing how to map the input to the types. Gson requires that you provide a genericised version of collection type in <code>fromJson()</code>. So, you have three options:</p>
+<ol>
+<li><p>Use Gson’s parser API (low-level streaming parser or the DOM parser JsonParser) to parse the array elements and then use <code>Gson.fromJson()</code> on each of the array elements.This is the preferred approach. <a href="extras/src/main/java/com/google/gson/extras/examples/rawcollections/RawCollectionsExample.java">Here is an example</a> that demonstrates how to do this.</p>
+</li>
+<li><p>Register a type adapter for <code>Collection.class</code> that looks at each of the array members and maps them to appropriate objects. The disadvantage of this approach is that it will screw up deserialization of other collection types in Gson.</p>
+</li>
+<li><p>Register a type adapter for <code>MyCollectionMemberType</code> and use <code>fromJson()</code> with <code>Collection&lt;MyCollectionMemberType&gt;</code>.</p>
+</li>
+</ol>
+<p>This approach is practical only if the array appears as a top-level element or if you can change the field type holding the collection to be of type <code>Collection&lt;MyCollectionMemberType&gt;</code>.</p>
+<h3 id="Built-in-Serializers-and-Deserializers"><a href="#Built-in-Serializers-and-Deserializers" class="headerlink" title="Built-in Serializers and Deserializers"></a><a name="TOC-Built-in-Serializers-and-Deserializers"></a>Built-in Serializers and Deserializers</h3><p>Gson has built-in serializers and deserializers for commonly used classes whose default representation may be inappropriate.<br>Here is a list of such classes:</p>
+<ol>
+<li><code>java.net.URL</code> to match it with strings like <code>&quot;https://github.com/google/gson/&quot;</code></li>
+<li><code>java.net.URI</code> to match it with strings like <code>&quot;/google/gson/&quot;</code></li>
+</ol>
+<p>You can also find source code for some commonly used classes such as JodaTime at <a href="https://sites.google.com/site/gson/gson-type-adapters-for-common-classes-1" target="_blank" rel="external">this page</a>.</p>
+<h3 id="Custom-Serialization-and-Deserialization"><a href="#Custom-Serialization-and-Deserialization" class="headerlink" title="Custom Serialization and Deserialization"></a><a name="TOC-Custom-Serialization-and-Deserialization"></a>Custom Serialization and Deserialization</h3><p>Sometimes default representation is not what you want. This is often the case when dealing with library classes (DateTime, etc).<br>Gson allows you to register your own custom serializers and deserializers. This is done by defining two parts:</p>
+<ul>
+<li>Json Serialiers: Need to define custom serialization for an object</li>
+<li><p>Json Deserializers: Needed to define custom deserialization for a type</p>
+</li>
+<li><p>Instance Creators: Not needed if no-args constructor is available or a deserializer is registered</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GsonBuilder gson = <span class="keyword">new</span> GsonBuilder();</span><br><span class="line">gson.registerTypeAdapter(MyType2.class, <span class="keyword">new</span> MyTypeAdapter());</span><br><span class="line">gson.registerTypeAdapter(MyType.class, <span class="keyword">new</span> MySerializer());</span><br><span class="line">gson.registerTypeAdapter(MyType.class, <span class="keyword">new</span> MyDeserializer());</span><br><span class="line">gson.registerTypeAdapter(MyType.class, <span class="keyword">new</span> MyInstanceCreator());</span><br></pre></td></tr></table></figure>
+<p><code>registerTypeAdapter</code> call checks if the type adapter implements more than one of these interfaces and register it for all of them.</p>
+<h4 id="Writing-a-Serializer"><a href="#Writing-a-Serializer" class="headerlink" title="Writing a Serializer"></a><a name="TOC-Writing-a-Serializer"></a>Writing a Serializer</h4><p>Here is an example of how to write a custom serializer for JodaTime <code>DateTime</code> class.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">DateTimeSerializer</span> <span class="keyword">implements</span> <span class="title">JsonSerializer</span>&lt;<span class="title">DateTime</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> JsonElement <span class="title">serialize</span><span class="params">(DateTime src, Type typeOfSrc, JsonSerializationContext context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JsonPrimitive(src.toString());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Gson calls <code>serialize()</code> when it runs into a <code>DateTime</code> object during serialization.</p>
+<h4 id="Writing-a-Deserializer"><a href="#Writing-a-Deserializer" class="headerlink" title="Writing a Deserializer"></a><a name="TOC-Writing-a-Deserializer"></a>Writing a Deserializer</h4><p>Here is an example of how to write a custom deserializer for JodaTime DateTime class.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">DateTimeDeserializer</span> <span class="keyword">implements</span> <span class="title">JsonDeserializer</span>&lt;<span class="title">DateTime</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> DateTime <span class="title">deserialize</span><span class="params">(JsonElement json, Type typeOfT, JsonDeserializationContext context)</span></span><br><span class="line">      <span class="keyword">throws</span> JsonParseException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DateTime(json.getAsJsonPrimitive().getAsString());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Gson calls <code>deserialize</code> when it needs to deserialize a JSON string fragment into a DateTime object</p>
+<p><strong>Finer points with Serializers and Deserializers</strong></p>
+<p>Often you want to register a single handler for all generic types corresponding to a raw type</p>
+<ul>
+<li>For example, suppose you have an <code>Id</code> class for id representation/translation (i.e. an internal vs. external representation).</li>
+<li><code>Id&lt;T&gt;</code> type that has same serialization for all generic types<ul>
+<li>Essentially write out the id value</li>
+</ul>
+</li>
+<li>Deserialization is very similar but not exactly the same<ul>
+<li>Need to call <code>new Id(Class&lt;T&gt;, String)</code> which returns an instance of <code>Id&lt;T&gt;</code></li>
+</ul>
+</li>
+</ul>
+<p>Gson supports registering a single handler for this. You can also register a specific handler for a specific generic type (say <code>Id&lt;RequiresSpecialHandling&gt;</code> needed special handling).<br>The <code>Type</code> parameter for the <code>toJson()</code> and <code>fromJson()</code> contains the generic type information to help you write a single handler for all generic types corresponding to the same raw type.</p>
+<h3 id="Writing-an-Instance-Creator"><a href="#Writing-an-Instance-Creator" class="headerlink" title="Writing an Instance Creator"></a><a name="TOC-Writing-an-Instance-Creator"></a>Writing an Instance Creator</h3><p>While deserializing an Object, Gson needs to create a default instance of the class.<br>Well-behaved classes that are meant for serialization and deserialization should have a no-argument constructor.</p>
+<ul>
+<li>Doesn’t matter whether public or private</li>
+</ul>
+<p>Typically, Instance Creators are needed when you are dealing with a library class that does NOT define a no-argument constructor</p>
+<p><strong>Instance Creator Example</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MoneyInstanceCreator</span> <span class="keyword">implements</span> <span class="title">InstanceCreator</span>&lt;<span class="title">Money</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Money <span class="title">createInstance</span><span class="params">(Type type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Money(<span class="string">"1000000"</span>, CurrencyCode.USD);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Type could be of a corresponding generic type</p>
+<ul>
+<li>Very useful to invoke constructors which need specific generic type information</li>
+<li>For example, if the <code>Id</code> class stores the class for which the Id is being created</li>
+</ul>
+<h4 id="InstanceCreator-for-a-Parameterized-Type"><a href="#InstanceCreator-for-a-Parameterized-Type" class="headerlink" title="InstanceCreator for a Parameterized Type"></a><a name="TOC-InstanceCreator-for-a-Parameterized-Type"></a>InstanceCreator for a Parameterized Type</h4><p>Sometimes the type that you are trying to instantiate is a parameterized type. Generally, this is not a problem since the actual instance is of raw type. Here is an example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">ArrayList</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyListInstanceCreator</span> <span class="keyword">implements</span> <span class="title">InstanceCreator</span>&lt;<span class="title">MyList</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">  <span class="keyword">public</span> MyList&lt;?&gt; createInstance(Type type) &#123;</span><br><span class="line">    <span class="comment">// No need to use a parameterized list since the actual instance will have the raw type anyway.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyList();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>However, sometimes you do need to create instance based on the actual parameterized type. In this case, you can use the type parameter being passed to the <code>createInstance</code> method. Here is an example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Id</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Class&lt;T&gt; classOfId;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> value;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Id</span><span class="params">(Class&lt;T&gt; classOfId, <span class="keyword">long</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.classOfId = classOfId;</span><br><span class="line">    <span class="keyword">this</span>.value = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IdInstanceCreator</span> <span class="keyword">implements</span> <span class="title">InstanceCreator</span>&lt;<span class="title">Id</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> Id&lt;?&gt; createInstance(Type type) &#123;</span><br><span class="line">    Type[] typeParameters = ((ParameterizedType)type).getActualTypeArguments();</span><br><span class="line">    Type idType = typeParameters[<span class="number">0</span>]; <span class="comment">// Id has only one parameterized type T</span></span><br><span class="line">    <span class="keyword">return</span> Id.get((Class)idType, <span class="number">0L</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the above example, an instance of the Id class can not be created without actually passing in the actual type for the parameterized type. We solve this problem by using the passed method parameter, <code>type</code>. The <code>type</code> object in this case is the Java parameterized type representation of <code>Id&lt;Foo&gt;</code> where the actual instance should be bound to <code>Id&lt;Foo&gt;</code>. Since <code>Id</code> class has just one parameterized type parameter, <code>T</code>, we use the zeroth element of the type array returned by <code>getActualTypeArgument()</code> which will hold <code>Foo.class</code> in this case.</p>
+<h3 id="Compact-Vs-Pretty-Printing-for-JSON-Output-Format"><a href="#Compact-Vs-Pretty-Printing-for-JSON-Output-Format" class="headerlink" title="Compact Vs. Pretty Printing for JSON Output Format"></a><a name="TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format"></a>Compact Vs. Pretty Printing for JSON Output Format</h3><p>The default JSON output that is provided by Gson is a compact JSON format. This means that there will not be any whitespace in the output JSON structure. Therefore, there will be no whitespace between field names and its value, object fields, and objects within arrays in the JSON output. As well, “null” fields will be ignored in the output (NOTE: null values will still be included in collections/arrays of objects). See the <a href="#TOC-Null-Object-Support">Null Object Support</a> section for information on configure Gson to output all null values.</p>
+<p>If you would like to use the Pretty Print feature, you must configure your <code>Gson</code> instance using the <code>GsonBuilder</code>. The <code>JsonFormatter</code> is not exposed through our public API, so the client is unable to configure the default print settings/margins for the JSON output. For now, we only provide a default <code>JsonPrintFormatter</code> that has default line length of 80 character, 2 character indentation, and 4 character right margin.</p>
+<p>The following is an example shows how to configure a <code>Gson</code> instance to use the default <code>JsonPrintFormatter</code> instead of the <code>JsonCompactFormatter</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = new GsonBuilder().setPrettyPrinting().create();</span><br><span class="line">String jsonOutput = gson.toJson(someObject);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Null-Object-Support"><a href="#Null-Object-Support" class="headerlink" title="Null Object Support"></a><a name="TOC-Null-Object-Support"></a>Null Object Support</h3><p>The default behaviour that is implemented in Gson is that <code>null</code> object fields are ignored. This allows for a more compact output format; however, the client must define a default value for these fields as the JSON format is converted back into its Java form.</p>
+<p>Here’s how you would configure a <code>Gson</code> instance to output null:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder().serializeNulls().create();</span><br></pre></td></tr></table></figure>
+<p>NOTE: when serializing <code>null</code>s with Gson, it will add a <code>JsonNull</code> element to the <code>JsonElement</code> structure. Therefore, this object can be used in custom serialization/deserialization.</p>
+<p>Here’s an example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String s;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="keyword">null</span>, <span class="number">5</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Foo</span><span class="params">(String s, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.s = s;</span><br><span class="line">    <span class="keyword">this</span>.i = i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder().serializeNulls().create();</span><br><span class="line">Foo foo = <span class="keyword">new</span> Foo();</span><br><span class="line">String json = gson.toJson(foo);</span><br><span class="line">System.out.println(json);</span><br><span class="line"></span><br><span class="line">json = gson.toJson(<span class="keyword">null</span>);</span><br><span class="line">System.out.println(json);</span><br></pre></td></tr></table></figure>
+<p>The output is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;s&quot;:null,&quot;i&quot;:5&#125;</span><br><span class="line">null</span><br></pre></td></tr></table></figure>
+<h3 id="Versioning-Support"><a href="#Versioning-Support" class="headerlink" title="Versioning Support"></a><a name="TOC-Versioning-Support"></a>Versioning Support</h3><p>Multiple versions of the same object can be maintained by using <a href="gson/src/main/java/com/google/gson/annotations/Since.java">@Since</a> annotation. This annotation can be used on Classes, Fields and, in a future release, Methods. In order to leverage this feature, you must configure your <code>Gson</code> instance to ignore any field/object that is greater than some version number. If no version is set on the <code>Gson</code> instance then it will serialize and deserialize all fields and classes regardless of the version.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VersionedClass</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Since</span>(<span class="number">1.1</span>) <span class="keyword">private</span> <span class="keyword">final</span> String newerField;</span><br><span class="line">  <span class="meta">@Since</span>(<span class="number">1.0</span>) <span class="keyword">private</span> <span class="keyword">final</span> String newField;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String field;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">VersionedClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.newerField = <span class="string">"newer"</span>;</span><br><span class="line">    <span class="keyword">this</span>.newField = <span class="string">"new"</span>;</span><br><span class="line">    <span class="keyword">this</span>.field = <span class="string">"old"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">VersionedClass versionedObject = <span class="keyword">new</span> VersionedClass();</span><br><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder().setVersion(<span class="number">1.0</span>).create();</span><br><span class="line">String jsonOutput = gson.toJson(someObject);</span><br><span class="line">System.out.println(jsonOutput);</span><br><span class="line">System.out.println();</span><br><span class="line"></span><br><span class="line">gson = <span class="keyword">new</span> Gson();</span><br><span class="line">jsonOutput = gson.toJson(someObject);</span><br><span class="line">System.out.println(jsonOutput);</span><br></pre></td></tr></table></figure>
+<p>The output is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;newField&quot;:&quot;new&quot;,&quot;field&quot;:&quot;old&quot;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&quot;newerField&quot;:&quot;newer&quot;,&quot;newField&quot;:&quot;new&quot;,&quot;field&quot;:&quot;old&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Excluding-Fields-From-Serialization-and-Deserialization"><a href="#Excluding-Fields-From-Serialization-and-Deserialization" class="headerlink" title="Excluding Fields From Serialization and Deserialization"></a><a name="TOC-Excluding-Fields-From-Serialization-and-Deserialization"></a>Excluding Fields From Serialization and Deserialization</h3><p>Gson supports numerous mechanisms for excluding top-level classes, fields and field types. Below are pluggable mechanisms that allow field and class exclusion. If none of the below mechanisms satisfy your needs then you can always use <a href="#TOC-Custom-Serialization-and-Deserialization">custom serializers and deserializers</a>.</p>
+<h4 id="Java-Modifier-Exclusion"><a href="#Java-Modifier-Exclusion" class="headerlink" title="Java Modifier Exclusion"></a><a name="TOC-Java-Modifier-Exclusion"></a>Java Modifier Exclusion</h4><p>By default, if you mark a field as <code>transient</code>, it will be excluded. As well, if a field is marked as <code>static</code> then by default it will be excluded. If you want to include some transient fields then you can do the following:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Modifier;</span><br><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">    .excludeFieldsWithModifiers(Modifier.STATIC)</span><br><span class="line">    .create();</span><br></pre></td></tr></table></figure>
+<p>NOTE: you can give any number of the <code>Modifier</code> constants to the <code>excludeFieldsWithModifiers</code> method. For example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">    .excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE)</span><br><span class="line">    .create();</span><br></pre></td></tr></table></figure>
+<h4 id="Gson’s-Expose"><a href="#Gson’s-Expose" class="headerlink" title="Gson’s @Expose"></a><a name="TOC-Gson-s-Expose"></a>Gson’s <code>@Expose</code></h4><p>This feature provides a way where you can mark certain fields of your objects to be excluded for consideration for serialization and deserialization to JSON. To use this annotation, you must create Gson by using <code>new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()</code>. The Gson instance created will exclude all fields in a class that are not marked with <code>@Expose</code> annotation.</p>
+<h4 id="User-Defined-Exclusion-Strategies"><a href="#User-Defined-Exclusion-Strategies" class="headerlink" title="User Defined Exclusion Strategies"></a><a name="TOC-User-Defined-Exclusion-Strategies"></a>User Defined Exclusion Strategies</h4><p>If the above mechanisms for excluding fields and class type do not work for you then you can always write your own exclusion strategy and plug it into Gson. See the <a href="http://google.github.io/gson/apidocs/com/google/gson/ExclusionStrategy.html" target="_blank" rel="external"><code>ExclusionStrategy</code></a> JavaDoc for more information.</p>
+<p>The following example shows how to exclude fields marked with a specific <code>@Foo</code> annotation and excludes top-level types (or declared field type) of class <code>String</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(&#123;ElementType.FIELD&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Foo &#123;</span><br><span class="line">  <span class="comment">// Field tag only annotation</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SampleObjectForTest</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Foo</span> <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> annotatedField;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String stringField;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> longField;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Class&lt;?&gt; clazzField;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SampleObjectForTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    annotatedField = <span class="number">5</span>;</span><br><span class="line">    stringField = <span class="string">"someDefaultValue"</span>;</span><br><span class="line">    longField = <span class="number">1234</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyExclusionStrategy</span> <span class="keyword">implements</span> <span class="title">ExclusionStrategy</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Class&lt;?&gt; typeToSkip;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">MyExclusionStrategy</span><span class="params">(Class&lt;?&gt; typeToSkip)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.typeToSkip = typeToSkip;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldSkipClass</span><span class="params">(Class&lt;?&gt; clazz)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (clazz == typeToSkip);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldSkipField</span><span class="params">(FieldAttributes f)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> f.getAnnotation(Foo.class) != <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">      .setExclusionStrategies(<span class="keyword">new</span> MyExclusionStrategy(String.class))</span><br><span class="line">      .serializeNulls()</span><br><span class="line">      .create();</span><br><span class="line">  SampleObjectForTest src = <span class="keyword">new</span> SampleObjectForTest();</span><br><span class="line">  String json = gson.toJson(src);</span><br><span class="line">  System.out.println(json);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The output is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;longField&quot;:1234&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="JSON-Field-Naming-Support"><a href="#JSON-Field-Naming-Support" class="headerlink" title="JSON Field Naming Support"></a><a name="TOC-JSON-Field-Naming-Support"></a>JSON Field Naming Support</h3><p>Gson supports some pre-defined field naming policies to convert the standard Java field names (i.e., camel cased names starting with lower case — <code>sampleFieldNameInJava</code>) to a Json field name (i.e., <code>sample_field_name_in_java</code> or <code>SampleFieldNameInJava</code>). See the <a href="http://google.github.io/gson/apidocs/com/google/gson/FieldNamingPolicy.html" target="_blank" rel="external">FieldNamingPolicy</a> class for information on the pre-defined naming policies.</p>
+<p>It also has an annotation based strategy to allows clients to define custom names on a per field basis. Note, that the annotation based strategy has field name validation which will raise “Runtime” exceptions if an invalid field name is provided as the annotation value.</p>
+<p>The following is an example of how to use both Gson naming policy features:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeObject</span> </span>&#123;</span><br><span class="line">  <span class="meta">@SerializedName</span>(<span class="string">"custom_naming"</span>) <span class="keyword">private</span> <span class="keyword">final</span> String someField;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String someOtherField;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SomeObject</span><span class="params">(String a, String b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.someField = a;</span><br><span class="line">    <span class="keyword">this</span>.someOtherField = b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SomeObject someObject = <span class="keyword">new</span> SomeObject(<span class="string">"first"</span>, <span class="string">"second"</span>);</span><br><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();</span><br><span class="line">String jsonRepresentation = gson.toJson(someObject);</span><br><span class="line">System.out.println(jsonRepresentation);</span><br></pre></td></tr></table></figure>
+<p>The output is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;custom_naming&quot;:&quot;first&quot;,&quot;SomeOtherField&quot;:&quot;second&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>If you have a need for custom naming policy (<a href="http://groups.google.com/group/google-gson/browse_thread/thread/cb441a2d717f6892" target="_blank" rel="external">see this discussion</a>), you can use the <a href="http://google.github.io/gson/apidocs/com/google/gson/annotations/SerializedName.html" target="_blank" rel="external">@SerializedName</a> annotation.</p>
+<h3 id="Sharing-State-Across-Custom-Serializers-and-Deserializers"><a href="#Sharing-State-Across-Custom-Serializers-and-Deserializers" class="headerlink" title="Sharing State Across Custom Serializers and Deserializers"></a><a name="TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers"></a>Sharing State Across Custom Serializers and Deserializers</h3><p>Sometimes you need to share state across custom serializers/deserializers (<a href="http://groups.google.com/group/google-gson/browse_thread/thread/2850010691ea09fb" target="_blank" rel="external">see this discussion</a>). You can use the following three strategies to accomplish this:</p>
+<ol>
+<li>Store shared state in static fields</li>
+<li>Declare the serializer/deserializer as inner classes of a parent type, and use the instance fields of parent type to store shared state</li>
+<li>Use Java <code>ThreadLocal</code></li>
+</ol>
+<p>1 and 2 are not thread-safe options, but 3 is.</p>
+<h3 id="Streaming"><a href="#Streaming" class="headerlink" title="Streaming"></a><a name="TOC-Streaming"></a>Streaming</h3><p>In addition Gson’s object model and data binding, you can use Gson to read from and write to a <a href="https://sites.google.com/site/gson/streaming" target="_blank" rel="external">stream</a>. You can also combine streaming and object model access to get the best of both approaches.</p>
+<h2 id="Issues-in-Designing-Gson"><a href="#Issues-in-Designing-Gson" class="headerlink" title="Issues in Designing Gson"></a><a name="TOC-Issues-in-Designing-Gson"></a>Issues in Designing Gson</h2><p>See the <a href="https://sites.google.com/site/gson/gson-design-document" title="Gson design document" target="_blank" rel="external">Gson design document</a> for a discussion of issues we faced while designing Gson. It also include a comparison of Gson with other Java libraries that can be used for Json conversion.</p>
+<h2 id="Future-Enhancements-to-Gson"><a href="#Future-Enhancements-to-Gson" class="headerlink" title="Future Enhancements to Gson"></a><a name="TOC-Future-Enhancements-to-Gson"></a>Future Enhancements to Gson</h2><p>For the latest list of proposed enhancements or if you’d like to suggest new ones, see the <a href="https://github.com/google/gson/issues" target="_blank" rel="external">Issues section</a> under the project website.</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编程/" rel="tag">#编程</a>
+          
+            <a href="/tags/转载/" rel="tag">#转载</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/17/见与不见/" rel="next" title="见与不见-仓央嘉措">
+                <i class="fa fa-chevron-left"></i> 见与不见-仓央嘉措
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="沉璧浮光" />
+          <p class="site-author-name" itemprop="name">沉璧浮光</p>
+          <p class="site-description motion-element" itemprop="description">Android开发工程师</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Goals-for-Gson"><span class="nav-number">2.</span> <span class="nav-text">Goals for Gson</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gson-Performance-and-Scalability"><span class="nav-number">3.</span> <span class="nav-text">Gson Performance and Scalability</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gson-Users"><span class="nav-number">4.</span> <span class="nav-text">Gson Users</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-Gson"><span class="nav-number">5.</span> <span class="nav-text">Using Gson</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-Gson-with-Maven"><span class="nav-number">6.</span> <span class="nav-text">Using Gson with Maven</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Primitives-Examples"><span class="nav-number">6.1.</span> <span class="nav-text">Primitives Examples</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Examples"><span class="nav-number">6.2.</span> <span class="nav-text">Object Examples</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Finer-Points-with-Objects"><span class="nav-number">6.2.1.</span> <span class="nav-text">Finer Points with Objects</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nested-Classes-including-Inner-Classes"><span class="nav-number">6.3.</span> <span class="nav-text">Nested Classes (including Inner Classes)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-Examples"><span class="nav-number">6.4.</span> <span class="nav-text">Array Examples</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Collections-Examples"><span class="nav-number">6.5.</span> <span class="nav-text">Collections Examples</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Collections-Limitations"><span class="nav-number">6.5.1.</span> <span class="nav-text">Collections Limitations</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializing-and-Deserializing-Generic-Types"><span class="nav-number">6.6.</span> <span class="nav-text">Serializing and Deserializing Generic Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types"><span class="nav-number">6.7.</span> <span class="nav-text">Serializing and Deserializing Collection with Objects of Arbitrary Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Built-in-Serializers-and-Deserializers"><span class="nav-number">6.8.</span> <span class="nav-text">Built-in Serializers and Deserializers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Custom-Serialization-and-Deserialization"><span class="nav-number">6.9.</span> <span class="nav-text">Custom Serialization and Deserialization</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Writing-a-Serializer"><span class="nav-number">6.9.1.</span> <span class="nav-text">Writing a Serializer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Writing-a-Deserializer"><span class="nav-number">6.9.2.</span> <span class="nav-text">Writing a Deserializer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writing-an-Instance-Creator"><span class="nav-number">6.10.</span> <span class="nav-text">Writing an Instance Creator</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InstanceCreator-for-a-Parameterized-Type"><span class="nav-number">6.10.1.</span> <span class="nav-text">InstanceCreator for a Parameterized Type</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compact-Vs-Pretty-Printing-for-JSON-Output-Format"><span class="nav-number">6.11.</span> <span class="nav-text">Compact Vs. Pretty Printing for JSON Output Format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null-Object-Support"><span class="nav-number">6.12.</span> <span class="nav-text">Null Object Support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Versioning-Support"><span class="nav-number">6.13.</span> <span class="nav-text">Versioning Support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Excluding-Fields-From-Serialization-and-Deserialization"><span class="nav-number">6.14.</span> <span class="nav-text">Excluding Fields From Serialization and Deserialization</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-Modifier-Exclusion"><span class="nav-number">6.14.1.</span> <span class="nav-text">Java Modifier Exclusion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gson’s-Expose"><span class="nav-number">6.14.2.</span> <span class="nav-text">Gson’s @Expose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#User-Defined-Exclusion-Strategies"><span class="nav-number">6.14.3.</span> <span class="nav-text">User Defined Exclusion Strategies</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON-Field-Naming-Support"><span class="nav-number">6.15.</span> <span class="nav-text">JSON Field Naming Support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sharing-State-Across-Custom-Serializers-and-Deserializers"><span class="nav-number">6.16.</span> <span class="nav-text">Sharing State Across Custom Serializers and Deserializers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Streaming"><span class="nav-number">6.17.</span> <span class="nav-text">Streaming</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Issues-in-Designing-Gson"><span class="nav-number">7.</span> <span class="nav-text">Issues in Designing Gson</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future-Enhancements-to-Gson"><span class="nav-number">8.</span> <span class="nav-text">Future Enhancements to Gson</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">沉璧浮光</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
