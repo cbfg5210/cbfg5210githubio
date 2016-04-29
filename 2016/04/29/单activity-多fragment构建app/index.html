@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="编程,NW.js," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -80,24 +80,35 @@
 
 
 
-<meta name="description" content="####前言：
-
-作为一名程序员，经常会跟许多小工具打交道，例如json数据格式化工具，网上有很多这样的工具，但是每次使用就要打开浏览器，感觉挺烦的，如果能把它变成桌面应用就好了，一打开就用而不需要浏览器。">
+<meta name="description" content="初次接触这种构建方式是在dgb公司实习的时候，从同事那里学习过来的，在这里默默地感谢他！
+为了方便说明，特制一个简单的demo。  demo运行起来是这样的,想象一下有那些fragment吧：
+揭晓答案环节：
+重点嘉宾：TabFragmentTool、AppFragmentTool、MainActivity、BaseFragment:
+第一位嘉宾：TabFragmentTool。由名字可知是跟ta">
 <meta property="og:type" content="article">
-<meta property="og:title" content="把网页小工具变成桌面应用">
-<meta property="og:url" content="http://cbfg5210.github.io/2016/04/09/把网页小工具变成桌面应用/index.html">
+<meta property="og:title" content="单activity+多fragment构建app">
+<meta property="og:url" content="http://cbfg5210.github.io/2016/04/29/单activity-多fragment构建app/index.html">
 <meta property="og:site_name" content="沉璧浮光">
-<meta property="og:description" content="####前言：
-
-作为一名程序员，经常会跟许多小工具打交道，例如json数据格式化工具，网上有很多这样的工具，但是每次使用就要打开浏览器，感觉挺烦的，如果能把它变成桌面应用就好了，一打开就用而不需要浏览器。">
-<meta property="og:image" content="http://i.imgur.com/y9tRr4u.png">
-<meta property="og:updated_time" content="2016-04-09T09:52:50.174Z">
+<meta property="og:description" content="初次接触这种构建方式是在dgb公司实习的时候，从同事那里学习过来的，在这里默默地感谢他！
+为了方便说明，特制一个简单的demo。  demo运行起来是这样的,想象一下有那些fragment吧：
+揭晓答案环节：
+重点嘉宾：TabFragmentTool、AppFragmentTool、MainActivity、BaseFragment:
+第一位嘉宾：TabFragmentTool。由名字可知是跟ta">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/SingleActivityApp.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/saac.PNG">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/tft.PNG">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/aft.PNG">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/ma.PNG">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/bf.PNG">
+<meta property="og:updated_time" content="2016-04-29T15:58:04.430Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="把网页小工具变成桌面应用">
-<meta name="twitter:description" content="####前言：
-
-作为一名程序员，经常会跟许多小工具打交道，例如json数据格式化工具，网上有很多这样的工具，但是每次使用就要打开浏览器，感觉挺烦的，如果能把它变成桌面应用就好了，一打开就用而不需要浏览器。">
-<meta name="twitter:image" content="http://i.imgur.com/y9tRr4u.png">
+<meta name="twitter:title" content="单activity+多fragment构建app">
+<meta name="twitter:description" content="初次接触这种构建方式是在dgb公司实习的时候，从同事那里学习过来的，在这里默默地感谢他！
+为了方便说明，特制一个简单的demo。  demo运行起来是这样的,想象一下有那些fragment吧：
+揭晓答案环节：
+重点嘉宾：TabFragmentTool、AppFragmentTool、MainActivity、BaseFragment:
+第一位嘉宾：TabFragmentTool。由名字可知是跟ta">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/SingleActivityApp.gif">
 
 
 
@@ -115,7 +126,7 @@
   };
 </script>
 
-  <title> 把网页小工具变成桌面应用 | 沉璧浮光 </title>
+  <title> 单activity+多fragment构建app | 沉璧浮光 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +266,7 @@
             
             
               
-                把网页小工具变成桌面应用
+                单activity+多fragment构建app
               
             
           </h1>
@@ -267,30 +278,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-09T14:20:56+08:00" content="2016-04-09">
-              2016-04-09
+            <time itemprop="dateCreated" datetime="2016-04-29T22:03:12+08:00" content="2016-04-29">
+              2016-04-29
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -314,15 +306,16 @@
       
 
       
-        <p>####前言：</p>
-<blockquote>
-<p>作为一名程序员，经常会跟许多小工具打交道，例如json数据格式化工具，网上有很多这样的工具，但是每次使用就要打开浏览器，感觉挺烦的，如果能把它变成桌面应用就好了，一打开就用而不需要浏览器。 <a id="more"></a> </p>
-</blockquote>
-<p><img src="http://i.imgur.com/y9tRr4u.png" alt="json-parser png"></p>
-<p>####其实现在要实现这样的需求很简单，用NW.js就可以了：</p>
-<p><strong>1. 先简单入门NW.js：<a href="http://www.cnblogs.com/2050/p/3543011.html" target="_blank" rel="external">http://www.cnblogs.com/2050/p/3543011.html</a></strong></p>
-<p><strong>2. 打开<a href="http://tmxk.org/c/json/" target="_blank" rel="external">http://tmxk.org/c/json/</a>，CTRL+S保存网页到桌面，可以发现电脑桌面多了一个’原生json格式化及高亮.html’文件和一个’原生json格式化及高亮_files’文件夹，还要把Collapsed.gif和Expanded.gif这两张图片下载进’原生json格式化及高亮_files’文件夹里面哦，简单起见，把html文件重命名为index.html，编辑器(例如EditPlus)打开index.html，修改index.html的js、css文件引用路径，删除index.html对urchin.js和m.js的引用</strong></p>
-<p><strong>3. 接下来按入门博客那里做就行了，创建 package.json文件，压缩，重命名，命令行处理。为了使用方便，把应用的快捷方式发送到桌面吧。</strong></p>
+        <p><strong>初次接触这种构建方式是在dgb公司实习的时候，从同事那里学习过来的，在这里默默地感谢他！</strong></p>
+<p><strong>为了方便说明，特制一个简单的demo。  demo运行起来是这样的,想象一下有那些fragment吧：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/SingleActivityApp.gif" alt="yunxingjietu"></p>
+<p><strong>揭晓答案环节：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/saac.PNG" alt="daimajietu"></p>
+<p><strong>重点嘉宾：TabFragmentTool、AppFragmentTool、MainActivity、BaseFragment:</strong></p>
+<p><strong>第一位嘉宾：TabFragmentTool。由名字可知是跟tab有关的，其实是对tabs的一个封装，这里用于实现主页面MainFragment3个Tab页切换。它大概是这样子的：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/tft.PNG" alt="daimajietu"></p>
+<p><strong>第二位嘉宾：AppFragmentTool。由名字可知是相对整个app而言的，是对app的页面进行管理的tool，控制fragment的切换等工作。它大概是这样子的：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/aft.PNG" alt="daimajietu"></p>
+<p><strong>第三位嘉宾：MainActivity。是项目里面唯一的activity，主要是作为容器装载fragment。它大概是这样子的：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/ma.PNG" alt="daimajietu"></p>
+<p><strong>第四位嘉宾：BaseFragment。所有fragment的父类，超级奶爸，作用是把fragment通用的一些函数都放置在里面，也包括与MainActivity交互的一些动作。它大概是这样子的：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/bf.PNG" alt="daimajietu"></p>
+<p><strong>总结：个人而言是挺喜欢这种构建方式的，因为减少了很多冗余代码，逻辑也清晰，MainActivity只是作为一个容器，fragment该干嘛就干嘛，fragment使用起来跟activity也差不多。其实百度一下可以发现，这种方式出现也有一段时间了，不由感慨一下自己的孤陋寡闻，最后附上几个链接：</strong></p>
+<p><strong>demo:</strong><a href="https://github.com/cbfg5210/SingleActivityApp" title="demo" target="_blank" rel="external">https://github.com/cbfg5210/SingleActivityApp</a><br><strong>多activity还是单activity的选择:</strong><a href="http://bbs.csdn.net/topics/390943901" title="多activity还是单activity的选择" target="_blank" rel="external">http://bbs.csdn.net/topics/390943901</a><br><strong>Fragment全解析系列:</strong><a href="http://www.jianshu.com/p/d9143a92ad94" title="Fragment全解析系列" target="_blank" rel="external">http://www.jianshu.com/p/d9143a92ad94</a><br><strong>方便构建单Activity+多Fragment轻量级框架：</strong><a href="http://www.open-open.com/lib/view/open1454293844339.html" title="方便构建单Activity+多Fragment轻量级框架" target="_blank" rel="external">http://www.open-open.com/lib/view/open1454293844339.html</a></p>
 
       
     </div>
@@ -341,30 +334,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/编程/" rel="tag">#编程</a>
-          
-            <a href="/tags/NW-js/" rel="tag">#NW.js</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/05/Genymotion修改IMEI等信息的方法/" rel="next" title="Genymotion修改IMEI等信息的方法">
-                <i class="fa fa-chevron-left"></i> Genymotion修改IMEI等信息的方法
+              <a href="/2016/04/19/Gson-User-Guide/" rel="next" title="Gson User Guide">
+                <i class="fa fa-chevron-left"></i> Gson User Guide
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/17/不负如来不负卿/" rel="prev" title="不负如来不负卿-仓央嘉措">
-                不负如来不负卿-仓央嘉措 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
