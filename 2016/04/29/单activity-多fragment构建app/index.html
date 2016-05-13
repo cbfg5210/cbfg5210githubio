@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/aft.PNG">
 <meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/ma.PNG">
 <meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/bf.PNG">
-<meta property="og:updated_time" content="2016-04-29T16:03:03.209Z">
+<meta property="og:updated_time" content="2016-05-13T01:37:28.165Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单activity+多fragment构建app">
 <meta name="twitter:description" content="初次接触这种构建方式是在dgb公司实习的时候，从同事那里学习过来的，在这里默默地感谢他！
@@ -324,8 +324,8 @@
 <p><strong>第二位嘉宾：AppFragmentTool。由名字可知是相对整个app而言的，是对app的页面进行管理的tool，控制fragment的切换等工作。它大概是这样子的：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/aft.PNG" alt="daimajietu"></p>
 <p><strong>第三位嘉宾：MainActivity。是项目里面唯一的activity，主要是作为容器装载fragment。它大概是这样子的：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/ma.PNG" alt="daimajietu"></p>
 <p><strong>第四位嘉宾：BaseFragment。所有fragment的父类，超级奶爸，作用是把fragment通用的一些函数都放置在里面，也包括与MainActivity交互的一些动作。它大概是这样子的：</strong><br><img src="https://raw.githubusercontent.com/cbfg5210/SingleActivityApp/master/capture/bf.PNG" alt="daimajietu"></p>
-<p><strong>总结：个人而言是挺喜欢这种构建方式的，因为减少了很多冗余代码，逻辑也清晰，MainActivity只是作为一个容器，fragment该干嘛就干嘛，fragment使用起来跟activity也差不多。其实百度一下可以发现，这种方式出现也有一段时间了，不由感慨一下自己的孤陋寡闻，最后附上几个链接：</strong></p>
-<p><strong>demo:</strong><a href="https://github.com/cbfg5210/SingleActivityApp" title="demo" target="_blank" rel="external">https://github.com/cbfg5210/SingleActivityApp</a><br><strong>多activity还是单activity的选择:</strong><a href="http://bbs.csdn.net/topics/390943901" title="多activity还是单activity的选择" target="_blank" rel="external">http://bbs.csdn.net/topics/390943901</a><br><strong>Fragment全解析系列:</strong><a href="http://www.jianshu.com/p/d9143a92ad94" title="Fragment全解析系列" target="_blank" rel="external">http://www.jianshu.com/p/d9143a92ad94</a><br><strong>方便构建单Activity+多Fragment轻量级框架：</strong><a href="http://www.open-open.com/lib/view/open1454293844339.html" title="方便构建单Activity+多Fragment轻量级框架" target="_blank" rel="external">http://www.open-open.com/lib/view/open1454293844339.html</a></p>
+<p><strong>总结：个人而言是挺喜欢这种构建方式的，因为减少了很多冗余代码，逻辑也清晰，MainActivity只是作为一个容器，fragment该干嘛就干嘛，fragment使用起来跟activity也差不多。其实百度一下可以发现，这种方式出现也有一段时间了，不由感慨一下自己的孤陋寡闻。但是!!!，重点来了，由于fragment的短板，也使得这种方式有一定的风险，具体见<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0605/2996.html" target="_blank" rel="external">Square：从今天开始抛弃Fragment吧！</a>，最后附上几个链接：</strong></p>
+<p><a href="https://github.com/cbfg5210/SingleActivityApp" title="demo" target="_blank" rel="external">demo地址</a><br><a href="http://bbs.csdn.net/topics/390943901" title="多activity还是单activity的选择" target="_blank" rel="external">多activity还是单activity的选择</a><br><a href="http://www.jianshu.com/p/d9143a92ad94" title="Fragment全解析系列" target="_blank" rel="external">Fragment全解析系列</a><br><a href="http://www.open-open.com/lib/view/open1454293844339.html" title="方便构建单Activity+多Fragment轻量级框架" target="_blank" rel="external">方便构建单Activity+多Fragment轻量级框架</a><br><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0605/2996.html&quot;" target="_blank" rel="external">Square：从今天开始抛弃Fragment吧！</a></p>
 
       
     </div>
