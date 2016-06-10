@@ -249,6 +249,835 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/08/抢答app开发介绍/" itemprop="url">
+                  抢答app开发介绍
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-08T16:45:12+08:00" content="2016-06-08">
+              2016-06-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>道阻且长，行则将至。  </p>
+</blockquote>
+<p>本篇博客的目的是给读者们介绍一下一个简单的抢答app的开发过程。本app包括Android端和Bmob云端。<br>先来看看app运行录像：  </p>
+<embed src="http://player.youku.com/player.php/sid/XMTYwMzYyMjA4MA==/v.swf" allowfullscreen="true" quality="high" width="480" height="400" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">
+
+<p>开发这个app的流程及要点主要有：<br>1.抢答规则的制定<br>2.逻辑流程梳理<br>3.数据表设计<br>4.Bmob接口开发<br>5.原型图设计<br>6.系统框架的确定<br>7.Android端功能模块开发  </p>
+<p>下面就以上提到的几个方面简单介绍一下吧，如果觉得无聊，就想想作者帅气写作的样子吧。</p>
+<p>1、抢答规则  </p>
+<p>制定规则对抢答app的开发而言是首要的，没有定下规则就无法继续下去了，规则包括游戏开始条件、抢题规则、答题规则、计分规则、结束条件等。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">规则名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">游戏开始条件</td>
+<td>至少两个用户点击开始游戏，服务器随机返回10条题目数据</td>
+</tr>
+<tr>
+<td style="text-align:left">抢题</td>
+<td>有用户抢题成功的话，没抢到题的用户暂时不允许进行抢题和答题操作</td>
+</tr>
+<tr>
+<td style="text-align:left">答题</td>
+<td>抢题成功后限时5秒内答题，超时自动向服务器提交答案</td>
+</tr>
+<tr>
+<td style="text-align:left">计分</td>
+<td>答对一题加一分，答错扣一分，答对答错都进入下一题</td>
+</tr>
+<tr>
+<td style="text-align:left">游戏结束条件</td>
+<td>默认题目有10条，答完即进行分数统计展示，游戏结束</td>
+</tr>
+</tbody>
+</table>
+<p>2、逻辑流程梳理  </p>
+<p>有了游戏规则，接着就是结合规则进行逻辑流程梳理。没有明确逻辑流程的话，在接下来的开发环节中很容易迷路和走错路，难以达到目的。这里使用了<a href="https://www.processon.com/" target="_blank" rel="external">processon</a>在线作图工具：  </p>
+<p><img src="https://raw.githubusercontent.com/cbfg5210/QiangDaApp/master/capture/qdb_enter.png" alt="抢答准备"></p>
+<p><img src="https://raw.githubusercontent.com/cbfg5210/QiangDaApp/master/capture/qdb_qiangda.png" alt="抢答开始"></p>
+<p>3、数据表设计<br>主要有四个表，设计如下：  </p>
+<p><img src="https://raw.githubusercontent.com/cbfg5210/QiangDaApp/master/capture/qdb_tbs.PNG" alt="数据表"></p>
+<p>4、Bmob接口开发<br>这里的Bmob接口开发指的是Bmob云端代码接口的编写，主要的接口有：  </p>
+<p>一、登录接口—Code_Login  </p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">deviceId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>设备的imei号</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<p>1、用户没注册过：</p>
+<pre>
+{
+  "code":200,
+  "msg":"注册成功",
+  "nickName":deviceId
+  "objectId":"333f491665"
+  "avatar":"http://file.bmob.cn/M03/55/D6/oYYBAFcoj8qAQeYEAAAGucO6NjA856.png"
+  }
+</pre>
+
+<p>2、用户注册过了：</p>
+<pre>
+{
+  "code":200,
+  "msg":"该设备已经注册过了",
+  "nickName":deviceId
+  "objectId":"333f491665"
+  "avatar":"http://file.bmob.cn/M03/55/D6/oYYBAFcoj8qAQeYEAAAGucO6NjA856.png"
+  }
+</pre>
+
+<p>二、加入房间接口—Code_EnterRoom  </p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td style="text-align:left">avatar</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户头像</td>
+</tr>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<p>1、该房间正在进行游戏：</p>
+<pre>
+{
+  "code":119,
+  "msg":"竞答已经开始,建议结束后再加入"
+  }
+</pre>
+
+<p>2、该房间没有进行游戏：</p>
+<pre>
+{
+  "code":200,
+  "msg":"成功添加到房间",
+  "recordObjectId":"333f491665"
+  }
+</pre>
+
+<p> <strong>备注：</strong>  </p>
+<p>加入房间成功的话会调用Code_JPush接口发送推送消息给房间内的用户。 </p>
+<p>三、退出房间接口—Code_ExitRoom  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+<tr>
+<td style="text-align:left">recordObjectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>关联的Record数据id</td>
+</tr>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<pre>
+{
+  "code":200,
+  "msg":"成功退出房间"
+  }
+</pre>
+
+<p>四、用户开始游戏接口—Code_IStart  </p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td style="text-align:left">recordObjectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>关联的Record数据id</td>
+</tr>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<pre>
+{
+  "code":200,
+  "msg":"服务器已经通过你的开始请求,请稍等其他用户"
+  }
+</pre>
+
+<p> <strong>备注：</strong></p>
+<p>开始成功的话会调用Code_JPush接口发送推送消息给房间内的用户；统计点击开始游戏的用户人数，如果人数&gt;=2，发送游戏开始倒计时消息并推送题目信息给房间内用户，房间状态变为游戏中。</p>
+<p>五、抢题接口—Code_QiangDa</p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<p>1、当前正在答题：</p>
+<pre>
+{
+  "code":119,
+  "msg":"当前正在答题状态,抢题失败"
+  }
+</pre>
+
+<p>2、当前没有答题：</p>
+<pre>
+{
+  "code":200,
+  "msg":"正在处理抢题结果..."
+  }
+</pre>
+
+<p> <strong>备注：</strong></p>
+<p>抢题成功的话会调用Code_JPush接口发送抢答成功消息给房间内的用户。</p>
+<p>六、答题接口—Code_Answer</p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+<tr>
+<td style="text-align:left">index</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">int</td>
+<td>题目序号</td>
+</tr>
+<tr>
+<td style="text-align:left">answer</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户答案</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<pre>
+{
+  "code":200,
+  "msg":"服务器正在审核答案..."
+  }
+</pre>
+
+<p> <strong>备注：</strong></p>
+<p>答案正确加一分，错误扣一分；调用Code_JPush接口推送答题情况给房间内用户。</p>
+<p>七、答题超时接口—Code_TimeOut</p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+</tbody>
+</table>
+<p> <strong>备注：</strong></p>
+<p>调用Code_Answer接口处理，答案默认为’NO’。</p>
+<p>八、游戏结束接口—Code_GameOver</p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+<tr>
+<td style="text-align:left">recordObjectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>关联的Record数据id</td>
+</tr>
+</tbody>
+</table>
+<p> <strong>备注：</strong></p>
+<p>调用Code_JPush接口通知房间内用户游戏结束；重置Room表中该房间的数据。</p>
+<p>九、获取分数接口—Code_GetScore</p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">recordObjectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>关联的Record数据id</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<pre>
+  {
+   "d265e60bf6":{"status":2,"score":1},
+   "b83450c66f":{"status":2,"score":5}
+  }
+</pre>
+
+<p>十、极光推送接口—Code_JPush</p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">sendToFlag</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>标识，allcounts：推送给房间内的所有用户，all：推送给app的所有用户</td>
+</tr>
+<tr>
+<td style="text-align:left">recordObjectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>关联的Record数据id</td>
+</tr>
+<tr>
+<td style="text-align:left">params</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>需要推送的内容</td>
+</tr>
+</tbody>
+</table>
+<p> <strong>备注：</strong></p>
+<p>调用服务器的PHP接口处理。</p>
+<p>十一、极光推送PHP接口  </p>
+<p><strong>参数1：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">flag</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>消息标识，有：NewUserEnter、UserExit、UserStart、DaoJiShi、QiangDaSuccess、AnswerWrong、AnswerRight、GameOver</td>
+</tr>
+</tbody>
+</table>
+<p><strong>参数2：</strong>  </p>
+<p>flag=NewUserEnter时：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">alias</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">array</td>
+<td>推送目标</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td style="text-align:left">avatar</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户头像</td>
+</tr>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+</tbody>
+</table>
+<p>flag=UserExit/UserStart时：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">alias</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">array</td>
+<td>推送目标</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+</tbody>
+</table>
+<p>flag=DaoJiShi时：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">alias</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">array</td>
+<td>推送目标</td>
+</tr>
+<tr>
+<td style="text-align:left">questions</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">array</td>
+<td>题目编号</td>
+</tr>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+</tbody>
+</table>
+<p>flag=QiangDaSuccess时：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">alias</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">array</td>
+<td>推送目标</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+</tbody>
+</table>
+<p>flag=AnswerWrong/AnswerRight时：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">alias</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">array</td>
+<td>推送目标</td>
+</tr>
+<tr>
+<td style="text-align:left">nickName</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户昵称</td>
+</tr>
+<tr>
+<td style="text-align:left">nextNum</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">int</td>
+<td>下一道题目编号</td>
+</tr>
+</tbody>
+</table>
+<p>flag=GameOver时：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">roomId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>房间id</td>
+</tr>
+</tbody>
+</table>
+<p>十二、修改昵称接口—Code_UpdateNick</p>
+<p><strong>参数：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">必选</th>
+<th style="text-align:left">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">objectId</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td style="text-align:left">newNick</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">string</td>
+<td>新昵称</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例：</strong>  </p>
+<p>1、昵称已存在</p>
+<pre>
+{
+  "code":119,
+  "msg":"该昵称已存在"
+  }
+</pre>
+
+<p>2、昵称不存在</p>
+<pre>
+{
+  "code":200,
+  "msg":"昵称修改成功"
+  }
+</pre>
+
+<p>5、原型图设计  </p>
+<p>原型图使用<a href="https://modao.cc/" target="_blank" rel="external">墨刀</a>设计，效果看这里：<a href="https://modao.cc/app/0NoNa2GrheqFgtLwlK5dBPk9VFUn8Jl" target="_blank" rel="external">https://modao.cc/app/0NoNa2GrheqFgtLwlK5dBPk9VFUn8Jl</a></p>
+<p>6、系统框架的确定  </p>
+<p>本系统采用了单Activity+多Fragment的构建方式：<br><a href="http://cbfg5210.github.io/2016/04/29/%E5%8D%95activity-%E5%A4%9Afragment%E6%9E%84%E5%BB%BAapp/">http://cbfg5210.github.io/2016/04/29/%E5%8D%95activity-%E5%A4%9Afragment%E6%9E%84%E5%BB%BAapp/</a></p>
+<p>7、Android端功能模块开发  </p>
+<p>写了那么多，其实Android端是本应用里最简单的一块，因为只需要调用封装好的接口并且对极光推送的消息进行处理即可，这里就不多说了。</p>
+<blockquote>
+<p>道阻且长，行则将至</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/03/Android之PHP服务器之旅/" itemprop="url">
                   Android之PHP服务器之旅
                 </a>
@@ -1269,121 +2098,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/23/工作效率和薪水加倍的7个秘诀/" itemprop="url">
-                  工作效率和薪水加倍的7个秘诀
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T15:40:05+08:00" content="2016-03-23">
-              2016-03-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/文居/" itemprop="url" rel="index">
-                    <span itemprop="name">文居</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>&#160; &#160;<strong>如何使生产力加倍呢？美国职业生涯规划与时间管理专家Brian Tracy，集20年务实工作经验与研究，发现能使你生产力加倍的7个工作秘诀：</strong>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/03/23/工作效率和薪水加倍的7个秘诀/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1429,7 +2143,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
