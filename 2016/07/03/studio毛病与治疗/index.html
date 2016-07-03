@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="诗居,转载," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -80,16 +80,22 @@
 
 
 
-<meta name="description" content="渺渺飘无际，遥遥山色濛。凝珠花有泪，著翠柳无风。络纬寒荒圃，栖鸦湿野丛。茫茫经一宿，晓起半坡红。">
+<meta name="description" content="导入项目到Android Studio的时候，Gradle Build失败了，报的错是:
+
+FAILURE: Build failed with an exception.Execution failed for task ‘:app:mergeDebugResources’.Some file crunching failed, see logs for detailsAAPT: libpng">
 <meta property="og:type" content="article">
-<meta property="og:title" content="濛濛春雨-杨建华">
-<meta property="og:url" content="http://cbfg5210.github.io/2016/03/23/濛濛春雨/index.html">
+<meta property="og:title" content="studio毛病与治疗">
+<meta property="og:url" content="http://cbfg5210.github.io/2016/07/03/studio毛病与治疗/index.html">
 <meta property="og:site_name" content="沉璧浮光">
-<meta property="og:description" content="渺渺飘无际，遥遥山色濛。凝珠花有泪，著翠柳无风。络纬寒荒圃，栖鸦湿野丛。茫茫经一宿，晓起半坡红。">
-<meta property="og:updated_time" content="2016-03-23T07:37:24.559Z">
+<meta property="og:description" content="导入项目到Android Studio的时候，Gradle Build失败了，报的错是:
+
+FAILURE: Build failed with an exception.Execution failed for task ‘:app:mergeDebugResources’.Some file crunching failed, see logs for detailsAAPT: libpng">
+<meta property="og:updated_time" content="2016-07-03T02:07:57.120Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="濛濛春雨-杨建华">
-<meta name="twitter:description" content="渺渺飘无际，遥遥山色濛。凝珠花有泪，著翠柳无风。络纬寒荒圃，栖鸦湿野丛。茫茫经一宿，晓起半坡红。">
+<meta name="twitter:title" content="studio毛病与治疗">
+<meta name="twitter:description" content="导入项目到Android Studio的时候，Gradle Build失败了，报的错是:
+
+FAILURE: Build failed with an exception.Execution failed for task ‘:app:mergeDebugResources’.Some file crunching failed, see logs for detailsAAPT: libpng">
 
 
 
@@ -107,7 +113,7 @@
   };
 </script>
 
-  <title> 濛濛春雨-杨建华 | 沉璧浮光 </title>
+  <title> studio毛病与治疗 | 沉璧浮光 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +253,7 @@
             
             
               
-                濛濛春雨-杨建华
+                studio毛病与治疗
               
             
           </h1>
@@ -259,38 +265,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T15:36:56+08:00" content="2016-03-23">
-              2016-03-23
+            <time itemprop="dateCreated" datetime="2016-07-03T10:01:34+08:00" content="2016-07-03">
+              2016-07-03
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/诗居/" itemprop="url" rel="index">
-                    <span itemprop="name">诗居</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/23/濛濛春雨/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/23/濛濛春雨/" itemprop="commentsCount"></span>
+                <a href="/2016/07/03/studio毛病与治疗/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/03/studio毛病与治疗/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -313,7 +300,14 @@
       
 
       
-        <p><strong>渺渺飘无际，遥遥山色濛。</strong><br><strong>凝珠花有泪，著翠柳无风。</strong><br><strong>络纬寒荒圃，栖鸦湿野丛。</strong><br><strong>茫茫经一宿，晓起半坡红。</strong></p>
+        <p>导入项目到Android Studio的时候，Gradle Build失败了，报的错是:</p>
+<blockquote>
+<p>FAILURE: Build failed with an exception.<br>Execution failed for task ‘:app:mergeDebugResources’.<br>Some file crunching failed, see logs for details<br>AAPT: libpng error: Not a PNG file<br>AAPT err(Facade for 197782496) : No Delegate set : lost message:libpng error: Not a PNG file</p>
+</blockquote>
+<p>说文件不是PNG文件，可是没有说是哪一张图。</p>
+<p>解决方法:  </p>
+<p>在build.gradle里加入:</p>
+<p>android {<br>……<br>aaptOptions {<br>    cruncherEnabled = false<br>    }<br>}</p>
 
       
     </div>
@@ -332,30 +326,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/诗居/" rel="tag">#诗居</a>
-          
-            <a href="/tags/转载/" rel="tag">#转载</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/23/莫怨秋风/" rel="next" title="莫怨秋风-沉璧浮光">
-                <i class="fa fa-chevron-left"></i> 莫怨秋风-沉璧浮光
+              <a href="/2016/06/08/抢答app开发介绍/" rel="next" title="抢答app开发介绍">
+                <i class="fa fa-chevron-left"></i> 抢答app开发介绍
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/23/李花/" rel="prev" title="李花-颜启茂">
-                李花-颜启茂 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -381,8 +363,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/23/濛濛春雨/"
-           data-title="濛濛春雨-杨建华" data-url="http://cbfg5210.github.io/2016/03/23/濛濛春雨/">
+      <div class="ds-thread" data-thread-key="2016/07/03/studio毛病与治疗/"
+           data-title="studio毛病与治疗" data-url="http://cbfg5210.github.io/2016/07/03/studio毛病与治疗/">
       </div>
     
   </div>
