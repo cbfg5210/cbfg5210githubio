@@ -80,22 +80,19 @@
 
 
 
-<meta name="description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。
-关于Socket的概念那些，这里就不说了，有篇文章写">
+<meta name="description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="socket入门">
 <meta property="og:url" content="http://cbfg5210.github.io/2016/07/08/socket入门/index.html">
 <meta property="og:site_name" content="沉璧浮光">
-<meta property="og:description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。
-关于Socket的概念那些，这里就不说了，有篇文章写">
+<meta property="og:description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。">
 <meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_singlethread.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_multithread.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_android.gif">
-<meta property="og:updated_time" content="2016-07-08T14:12:37.710Z">
+<meta property="og:updated_time" content="2016-07-08T14:19:55.136Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="socket入门">
-<meta name="twitter:description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。
-关于Socket的概念那些，这里就不说了，有篇文章写">
+<meta name="twitter:description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_singlethread.gif">
 
 
@@ -301,7 +298,7 @@
       
 
       
-        <p>这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。</p>
+        <p>这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。<br><a id="more"></a></p>
 <p>关于Socket的概念那些，这里就不说了，有篇文章写的比较容易理解：<a href="http://www.cnblogs.com/dolphinX/p/3460545.html" target="_blank" rel="external">简单理解Socket</a>，这里只是通过代码学习Socket的简单使用。以下每个例子都包括服务器端和客户端，需要注意或者说明的地方会在代码的注释里，不额外叙述，例子的代码也是参考网上的，不妥之处，愿与各位共商。</p>
 <p>如果你需要完整的项目代码，可以在这里下载：<a href="https://github.com/cbfg5210/TestSocket" target="_blank" rel="external">完整的项目代码</a></p>
 <p>###单线程Socket例子(Server端和Client端都是Java)：###</p>
