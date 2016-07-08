@@ -1,0 +1,1109 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。
+关于Socket的概念那些，这里就不说了，有篇文章写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket入门">
+<meta property="og:url" content="http://cbfg5210.github.io/2016/07/08/socket入门/index.html">
+<meta property="og:site_name" content="沉璧浮光">
+<meta property="og:description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。
+关于Socket的概念那些，这里就不说了，有篇文章写">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_singlethread.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_multithread.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_android.gif">
+<meta property="og:updated_time" content="2016-07-08T14:12:37.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="socket入门">
+<meta name="twitter:description" content="这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。
+关于Socket的概念那些，这里就不说了，有篇文章写">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_singlethread.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> socket入门 | 沉璧浮光 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">沉璧浮光</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">想一千次不如去做一次,华丽的跌倒远胜无谓的徘徊.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                socket入门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-08T18:22:33+08:00" content="2016-07-08">
+              2016-07-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/08/socket入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/08/socket入门/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这两天在学习Socket的基础知识，主要是了解Socket和它的简单使用，坦白说之前在Java或者Android的开发中都没用过Socket，可能这样说也不太准确，因为用过的一些第三方包里面就可能使用了Socket，例如极光推送，只是自己没有直接接触它而已。网络方面的编程都是用Http，所以对这个朋友甚是陌生，在这里，和Socket打一下交道。</p>
+<p>关于Socket的概念那些，这里就不说了，有篇文章写的比较容易理解：<a href="http://www.cnblogs.com/dolphinX/p/3460545.html" target="_blank" rel="external">简单理解Socket</a>，这里只是通过代码学习Socket的简单使用。以下每个例子都包括服务器端和客户端，需要注意或者说明的地方会在代码的注释里，不额外叙述，例子的代码也是参考网上的，不妥之处，愿与各位共商。</p>
+<p>如果你需要完整的项目代码，可以在这里下载：<a href="https://github.com/cbfg5210/TestSocket" target="_blank" rel="external">完整的项目代码</a></p>
+<p>###单线程Socket例子(Server端和Client端都是Java)：###</p>
+<p>运行截图：</p>
+<p><img src="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_singlethread.gif" alt="运行截图"></p>
+<p>Server端：</p>
+<pre><code>import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class SServer {
+    public static final int PORT = 8080;
+
+    public static void main(String[] args) {
+        ServerSocket serverSocket = null;
+        Socket socket = null;
+        BufferedReader bufferedReader = null;
+        PrintWriter printWriter = null;
+        try {
+            serverSocket = new ServerSocket(PORT);
+            System.out.println(&quot;server started&quot;);
+            socket = serverSocket.accept();
+            bufferedReader=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+
+            while (true) {
+                String txtFromClient=bufferedReader.readLine();
+                System.out.println(&quot;client said:&quot; + txtFromClient);
+                if (&quot;exit&quot;.equals(txtFromClient)) {
+                    printWriter.println(&quot;i&apos;m going to exit&quot;);
+                    printWriter.flush();
+                    break;
+                }
+                Thread.sleep(1000);
+                printWriter.println(&quot;received &gt;&quot; + txtFromClient);
+                printWriter.flush();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally{
+            try {
+                System.out.println(&quot;server closed&quot;);
+                bufferedReader.close();
+                printWriter.close();
+                socket.close();
+                serverSocket.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>Client端：</p>
+<pre><code>import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class SClient {
+    private static final String IP=&quot;127.0.0.2&quot;;//这里的ip随意都行
+    public static void main(String[] args) {
+        Socket socket = null;
+        BufferedReader bufferedReader = null;
+        PrintWriter printWriter = null;//PrintWriter方法可以写不同平台的换行符，bufferedwriter.newLine换行，使用PrintWriter比较好！
+        try {
+            socket = new Socket(IP, SServer.PORT);
+            bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+
+            for (int i = 0; i &lt; 10; i++) {
+                printWriter.println(&quot;hi-&quot; + i);
+                printWriter.flush();
+
+                String txtFromServer = bufferedReader.readLine();
+                System.out.println(&quot;server said:&quot; + txtFromServer);
+            }
+            //这里需要通知服务器关闭socket，因为这里关闭了，但是server那里还在读取客户端输入，会导致异常
+            printWriter.println(&quot;exit&quot;);
+            printWriter.flush();
+
+            String txtFromServer = bufferedReader.readLine();
+            System.out.println(&quot;server said:&quot; + txtFromServer);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                System.out.println(&quot;client closed&quot;);
+                bufferedReader.close();
+                printWriter.close();
+                socket.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>###多线程Socket例子(Server端和Client端都是Java)：###</p>
+<p>运行截图：</p>
+<p><img src="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_multithread.gif" alt="运行截图"></p>
+<p>Server端：</p>
+<pre><code>import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * problem1:
+ * 最先考虑的是使用BufferedReader和BufferedWriter来完成双向数据的写入写出，
+ * 但是发现BufferedWriter在fush()的时候并不能把从控制台得到的数据立即发送到服务端，
+ * 就改用DataOutputStream数据流来完成双向数据传递。
+ *
+ * problem2:
+ * 要两次exit才能关闭server,第一次exit_server,第二次exit_server/exit_client
+ */
+public class MServer {
+    public static void main(String[] args) {
+        new MServer().service();
+    }
+
+    public static final int PORT = 8080;
+    private ServerSocket serverSocket;
+    private ExecutorService executorService;
+    private boolean flag = true;
+
+    public MServer() {
+        try {
+            serverSocket = new ServerSocket(PORT);
+            executorService = Executors.newFixedThreadPool(5);
+        } catch (IOException e) {
+            e.printStackTrace();
+            executorService.shutdown();
+        }
+    }
+
+    public void service() {
+        int clientIndx = 0;
+        try {
+            while (flag) {
+                Socket socket = serverSocket.accept();
+                System.out.println(&quot;client-&quot; + clientIndx + &quot; connected&quot;);
+                clientIndx++;
+                executorService.execute(new Handler(socket));
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                serverSocket.close();
+                executorService.shutdown();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class Handler implements Runnable {
+        private Socket socket;
+
+        public Handler(Socket mSocket) {
+            socket = mSocket;
+        }
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            DataInputStream dataInputStream = null;
+            DataOutputStream dataOutputStream = null;
+
+            try {
+                dataInputStream = new DataInputStream(socket.getInputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+                while (true) {
+                    String txtFromClient = dataInputStream.readUTF();
+                    System.out.println(&quot;client said:&quot; + txtFromClient);
+
+                    if (&quot;exit_client&quot;.equals(txtFromClient)) {
+                        dataOutputStream.writeUTF(&quot;server closed socket for you&quot;);
+                        dataOutputStream.flush();
+                        break;
+                    } else if (&quot;exit_server&quot;.equals(txtFromClient)) {
+                        dataOutputStream.writeUTF(&quot;server is going to exit&quot;);
+                        dataOutputStream.flush();
+                        flag = false;
+                        break;
+                    } else {
+                        dataOutputStream.writeUTF(&quot;received &gt;&quot; + txtFromClient);
+                        dataOutputStream.flush();
+                    }
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                try {
+                    dataInputStream.close();
+                    dataOutputStream.close();
+                    socket.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+</code></pre><p>Client端：</p>
+<pre><code>import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+
+public class MClient {
+private static final String IP=&quot;127.0.1.2&quot;;//这里的ip随意都行
+public static void main(String[] args) {
+    try {
+        Socket socket = new Socket(IP, MServer.PORT);
+        new Thread(new Handler(socket)).start();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+}
+
+static class Handler implements Runnable {
+    private Socket socket;
+    private BufferedReader bufferedReader;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+
+    public Handler(Socket mSocket) throws IOException {
+        socket = mSocket;
+        bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        dataInputStream = new DataInputStream(socket.getInputStream());
+        dataOutputStream = new DataOutputStream(socket.getOutputStream());
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        while (true) {
+            try {
+                String txtInput = bufferedReader.readLine();
+                System.out.println(&quot;you said:&quot; + txtInput);
+
+                dataOutputStream.writeUTF(txtInput);
+                dataOutputStream.flush();
+
+                String txtFromServer = dataInputStream.readUTF();
+                System.out.println(&quot;server said:&quot; + txtFromServer);
+
+                if (&quot;exit_client&quot;.equals(txtInput) || &quot;exit_server&quot;.equals(txtInput)) {
+                    break;
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        try {
+            bufferedReader.close();
+            dataInputStream.close();
+            dataOutputStream.close();
+            socket.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>}</p>
+<p>###多线程Socket例子(Server端是Java,Client端都是Android)：###</p>
+<p>运行截图：</p>
+<p><img src="https://raw.githubusercontent.com/cbfg5210/TestSocket/master/capture/socket_android.gif" alt="运行截图"></p>
+<p>Server端：</p>
+<pre><code>import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class AndroidServer {
+    public static void main(String[] args) {
+        new AndroidServer().service();
+    }
+
+    public static final int PORT = 8080;
+    private ServerSocket serverSocket;
+    private ExecutorService executorService;
+    private boolean flag = true;
+
+    public AndroidServer() {
+        try {
+            serverSocket = new ServerSocket(PORT);
+            executorService = Executors.newFixedThreadPool(5);
+            System.out.println(&quot;server started&quot;);
+        } catch (IOException e) {
+            e.printStackTrace();
+            executorService.shutdown();
+        }
+    }
+
+    public void service() {
+        try {
+            int clientIndx = 0;
+            while (flag) {
+                Socket socket = serverSocket.accept();
+                System.out.println(&quot;Welcome client-&quot; + (clientIndx++));
+                executorService.execute(new Handler(socket));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                executorService.shutdown();
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class Handler implements Runnable {
+        private Socket socket;
+
+        public Handler(Socket mSocket) {
+            socket = mSocket;
+        }
+
+        @Override
+        public void run() {
+            DataInputStream dataInputStream = null;
+            DataOutputStream dataOutputStream = null;
+
+            try {
+                dataInputStream = new DataInputStream(socket.getInputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+//                while(true)//这里如果用循环，当客户端socket关闭后，dataInputStream.readUTF()会出现异常
+                String txtFromClient = dataInputStream.readUTF();
+                System.out.println(&quot;client said:&quot; + txtFromClient);
+
+                if (&quot;exit_server&quot;.equals(txtFromClient)) {//客户端发送两次exit_server才能关闭服务器
+                    dataOutputStream.writeUTF(&quot;server is going to exit&quot;);
+                    dataOutputStream.flush();
+                    flag = false;
+                } else {
+                    dataOutputStream.writeUTF(&quot;received &gt;&quot; + txtFromClient);
+                    dataOutputStream.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    dataInputStream.close();
+                    dataOutputStream.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+</code></pre><p>Client端：</p>
+<pre><code>public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private EditText aman_txt;
+    private Button aman_send;
+    private TextView aman_tip;
+    private final String IP=&quot;192.168.1.106&quot;;//电脑ipv4地址
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        aman_txt = (EditText) findViewById(R.id.aman_txt);
+        aman_tip = (TextView) findViewById(R.id.aman_tip);
+        aman_tip.setMovementMethod(ScrollingMovementMethod.getInstance());
+        aman_send = (Button) findViewById(R.id.aman_send);
+        aman_send.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == R.id.aman_send) {
+            String txtInput = aman_txt.getText().toString();
+            aman_tip.append(&quot;\n&quot;);
+            aman_tip.append(&quot;you said:&quot;);
+            aman_tip.append(txtInput);
+
+            new MyThread(txtInput).start();
+        }
+    }
+
+    class MyThread extends Thread {
+        private String txtFromClient;
+
+        public MyThread(String txt) {
+            txtFromClient = txt;
+        }
+
+        @Override
+        public void run() {
+            Socket socket = null;
+            DataInputStream dataInputStream = null;
+            DataOutputStream dataOutputStream = null;
+            try {
+                socket=new Socket();
+                socket.connect(new InetSocketAddress(IP, AndroidServer.PORT),5000);
+//                socket = new Socket(IP, AndroidServer.PORT);//也可以用这个方法连接
+                dataInputStream = new DataInputStream(socket.getInputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+                dataOutputStream.writeUTF(txtFromClient);
+                dataOutputStream.flush();
+                final String txtFromServer = dataInputStream.readUTF();
+                addTip(txtFromServer);
+            } catch(SocketTimeoutException e){
+                addTip(&quot;连接不到服务器&quot;);
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if(null!=dataInputStream){
+                        dataInputStream.close();
+                        dataOutputStream.close();
+                    }
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void addTip(final String txtFromServer) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                aman_tip.append(&quot;\n&quot;);
+                aman_tip.append(&quot;server said:&quot;);
+                aman_tip.append(txtFromServer);
+            }
+        });
+    }
+}
+</code></pre><p>MainActivity布局-acitivity_main.xml：</p>
+<pre><code>&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:paddingBottom=&quot;@dimen/activity_vertical_margin&quot;
+    android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingTop=&quot;@dimen/activity_vertical_margin&quot;
+    tools:context=&quot;.android.MainActivity&quot;&gt;
+
+    &lt;EditText
+        android:id=&quot;@+id/aman_txt&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:hint=&quot;给服务器发送信息&quot; /&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/aman_send&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_below=&quot;@id/aman_txt&quot;
+        android:text=&quot;发送&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/aman_tip&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_below=&quot;@id/aman_send&quot;
+        android:layout_marginBottom=&quot;10dp&quot;
+        android:scrollbars=&quot;vertical&quot;/&gt;
+&lt;/RelativeLayout&gt;
+</code></pre>
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/03/studio毛病与治疗/" rel="next" title="studio毛病与治疗">
+                <i class="fa fa-chevron-left"></i> studio毛病与治疗
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/08/socket入门/"
+           data-title="socket入门" data-url="http://cbfg5210.github.io/2016/07/08/socket入门/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="沉璧浮光" />
+          <p class="site-author-name" itemprop="name">沉璧浮光</p>
+          <p class="site-description motion-element" itemprop="description">Android开发工程师</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">沉璧浮光</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cbfg5210"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
